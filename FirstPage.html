@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Things I've Learned</title>
+	<link rel="stylesheet" type="text/css" href="fp.css">
+</head>
+<body>
+	<h1>Things I've Learned</h1>
+	<img src=https://cdn3.i-scmp.com/sites/default/files/styles/980x551/public/images/methode/2018/01/10/d463eb96-f5ca-11e7-8693-80d4e18fb3a2_image_hires_163030.jpg?itok=RskmhikM>
+	<h2>Internet Basics</h2>
+	<a href="http://www.google.com">Google</a>
+	<ol>
+		<li>HTTP Requests</li>
+		<li>IP Address</li>
+		<li>Servers</li>
+	</ol>
+
+	<h2>HTML</h2>
+	<nl>
+		<li>Stands for <strong>Hyper TExt Markup Language</strong></li>
+		<li>Lots of tags
+			<ul>
+				<li>Boilerplate</li>
+					<ol>
+						<li>Doctype</li>
+						<li>HTML</li>
+						<li>Head</li>
+							<ol>
+								<li>Title</li>
+							</ol>
+						<li>Body</li>
+					</ol>
+				<li>Headings</li>
+				<li>Paragraph</li>
+				<li><em>em</em></li>
+				<li><strong>strong</strong></li>
+			</ul>
+		</li>
+	</nl>
+
+	<h3>First Gen Pokemon</h3>
+
+	<table border="1">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Image</th>
+				<th>Type</th>
+				<th>Evolves To</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>Bulbasaur</td>
+				<td><img width="50" src=http://img4.wikia.nocookie.net/__cb20140328190757/pokemon/images/thumb/2/21/001Bulbasaur.png/200px-001Bulbasaur.png></td>
+				<td>Grass/Poison</td>
+				<td><a href="http://pokemon.wikia.com/wiki/Ivysaur">Ivysaur</a> </td>
+			</tr>
+			<tr>
+				<td>Charmander</td>
+				<td><img width= "50" src=http://img4.wikia.nocookie.net/__cb20140724195345/pokemon/images/thumb/7/73/004Charmander.png/200px-004Charmander.png></td>
+				<td>Fire</td>
+				<td><a href="http://pokemon.wikia.com/wiki/Charmeleon">Charmeleon</a> </td>
+			</tr>
+			<tr>
+				<td>Squirtle</td>
+				<td><img width= "50" src=http://img1.wikia.nocookie.net/__cb20140328191525/pokemon/images/thumb/3/39/007Squirtle.png/200px-007Squirtle.png></td>
+				<td>Water</td>
+				<td><a href="http://pokemon.wikia.com/wiki/Wartortle">Wartortle</a> </td>
+			</tr>			
+		</tbody>	
+	</table>
+
+	<h2>Login</h2>
+	<!-- action - where fthe form send data to -->
+	<!-- method - what HTTP method (get/post) -->
+	<form action="http://wikipedia.org" method="GET">
+		<!-- First kind of label linking-->
+		<label>
+			Username:
+			<input name="username" type="text" placeholder="username" required>
+		</label>
+		<!-- Second kind of label linking-->
+		<label for="password">Password:</label>
+		<input name="password" type="password" placeholder="password" required>
+		<input type="submit">
+	</form>
+
+	<p>Black or White?</p>
+	<form>
+		<label for="Black">Black: </label>
+		<input name="colorChoice" id="Black" type="radio" value="BLACK">
+
+		<label for="cats">White: </label>
+		<input name="colorChoice" id="White" type="radio" value="WHITE">
+
+		<p>What's your current mood?</p>
+		<select name="mood">
+			<option value="happy">:)</option>
+			<option value="neutral">:|</option>
+			<option value="sad">:(</option>
+		</select>
+
+		<input type="text">
+		<textarea name="Paragraph" rows="10" cols="20"></textarea>
+
+		<button>Go!</button>
+	</form>
+
+
+	<h2>Register</h2>
+	<label for="FirstName">First Name:</label>
+	<input name="FirstName" id="FirstName" type="text" placeholder="Yixuan" required>
+	
+	<label for="LastName">Last Name:</label>
+	<input name="LastName" i="LastName" type="text" placeholder="Zhou" required>
+
+	<div>
+		<label for="Male">Male</label>
+		<input name="gender" id="Male" type="radio" value="Male">
+
+		<label for="Female">Female</label>
+		<input name="gender" id="Female" type="radio" value="Female">
+
+		<label for="Other">Other</label>
+		<input name="gender" id="Other" type="radio" value="Other">
+	</div>
+
+	<div>
+		<label for="Email">Email:</label>
+		<input name="Email" type="email" placeholder="your email" required>
+		
+		<label for="Password">Password:</label>
+		<input name="Password" type="password" pattern=".{5,10}" required title="5 to 10 characters required">
+	</div>
+
+	<div>
+		<label>
+		Birthday:
+		<select name="Month">
+			<option value="Month">Month</option>
+			<option value="Jan">Jan</option>
+			<option value="Feb">Feb</option>
+			<option value="Mar">Mar</option>
+		</select>
+		<select name="Day">
+			<option value="Day">Day</option>
+			<option value="1">1</option>
+			<option value="2">2</option>
+			<option value="3">3</option>
+		</select>
+		<select name="Year">
+			<option value="Year">Year</option>
+			<option value="2018">2018</option>
+			<option value="2017">2017</option>
+			<option value="2016">2016</option>
+		</select>
+		</label>
+	</div>
+
+	<div>
+		<label for="agreed">I agree to the terms and conditions</label>
+		<input id="agreed" name="agreed" type="checkbox">
+	</div>
+
+	<button>Submit</button>
+
+</body>
+</html>
+
