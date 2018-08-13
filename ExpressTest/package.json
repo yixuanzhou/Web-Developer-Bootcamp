@@ -1,0 +1,15 @@
+{
+  "name": "expresstest",
+  "version": "1.0.0",
+  "description": "My first express test",
+  "main": "test.js",
+  "dependencies": {
+    "express": "^4.16.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Yixuan Zhou",
+  "license": "ISC"
+}
