@@ -1,20 +1,14 @@
 var express    = require("express"),
 	app        = express(),
 	bodyParser = require("body-parser"),
-	mongoose   = require("mongoose");
+	mongoose   = require("mongoose"),
+	Campground = require("./models/campground"),
+	seedDB     = require("./seeds");
 
+seedDB();
 mongoose.connect("mongodb://localhost/yelp_camp");
 app.use(bodyParser.urlencoded({extended:true}));
 app.set("view engine", "ejs");
-
-// SCHEMA SETUP
-var campgroundSchema = new mongoose.Schema({
-	name: String,
-	image : String,
-	description: String
-});
-
-var Campground = mongoose.model("Campground", campgroundSchema);
 
 app.get("/", function(req, res){
 	res.render("landing")
@@ -48,11 +42,15 @@ app.get("/campgrounds/new", function(req, res){
 	res.render("new.ejs");
 })
 
+// SHOW -- SHOW MORE INFO ABOUT ONE CAMPGROUND
 app.get("/campgrounds/:id", function(req,res){
-	Campround.FindById(req.params.id, function(err, foundCampground){
+	//Find the campground with provided ID
+	Campround.FindById(req.params.id).populate("comments").exec(function(err, foundCampground){
 		if (err) console.log(err);
-		else res.render("show", {campground: foundCampground});
-
+		else {
+			console.log(foundCampground);
+			res.render("show", {campground: foundCampground});
+		}
 	});
 });
 
