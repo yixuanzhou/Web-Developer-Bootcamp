@@ -3,28 +3,33 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-3">
-			<p class="lead">asdda</p>
+			<p class="lead"><%= campground.name %></p>
 			<div class="list-group">
-				<li class="list-group-item">sad</li>
-				<li class="list-group-item">sad</li>
-				<li class="list-group-item">sad</li>
+				<li class="list-group-item">Info 1</li>
+				<li class="list-group-item">Info 2</li>
+				<li class="list-group-item">Info 3</li>
 			</div>
+			<div id="map"></div>
 		</div>
 		<div class="col-md-9">
 			<div class="thumbnail">
 				<img class="img-responsive" src="<%= campground.image %>">
 				<div class="caption-full">
-					<h4 class="pull-right">$9</h4>
+					<h4 class="pull-right">$9.00/night</h4>
 					<h4><a href="%= campground.name %>"></a></h4>
+					<p><%= campground.description %></p>
+					<p><em>Submitted By <%= campground.author.username %></em></p>
+					<% if (currentUser && campground.author.id.equals(currentUser._id)){ %>
+						<a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/edit">Edit</a>
+						<form id="delete-form" action="/campgrounds/<%= campground._id %>?_method=DELETE" method="POST">
+							<button class="btn btn-danger">Delete</button>
+					<% } %>
 				</div>
 			</div>
 			<div class="well">
 				<div class="text-right">
 					<a class="btn btn-success" href="/campgrounds/<%= campground._id %>/comments/new">Add new comment</a>
 				</div>
-				<h4><a><%= campground.name %></a></h4>
-				<p><%= campground.description %></p>
-				<p><em>Submitted By<%= campground.author.username %></em></p>
 				<hr>
 				<% campground.comments.forEach(function(comment){ %> 
 				<div class="row">
@@ -32,6 +37,12 @@
 						<%= comment.author.username %>
 						<span class="pull-right"></span>
 						<p><%= comment.text %></p>
+						<% if (currentUser && comment.author.id.equals(currentUser._id)){ %>
+							<a class="btn btn-warning" href="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>/edit">Edit</a>
+							<form id="delete-form" action="/campgrounds/<%= campground._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST">
+								<input type="submit" class="btn btn-danger" value="Delete">
+							</form>
+						<% } %>
 					</div>
 				</div>					
 				<% }) %>
@@ -40,5 +51,16 @@
 	</div>
 </div>
 
-<img src= "<%= campground.image %>" >
+<script>
+  var map;
+  function initMap() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      center: {lat: 30.7429, lng: 121.3383},
+      zoom: 12
+    });
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBDxM_U8wvWu1q3KOqZarLYXftLFM7Hv5I&callback=initMap"
+    async defer></script>
+
 <% include ../partials/footer %>

@@ -1,13 +1,27 @@
 var express = require("express");
 var router = express.Router();
-var Campround = require("../models/campground");
+var Campground = require("../models/campground");
+
+// Define escapeRegex function for search feature
+function escapeRegex(text) {
+    return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+};
 
  // INDEX -- SHOW ALL CAMPGROUNDS
 router.get("/campgrounds", function(req, res){
-	Campground.find({}, function(err, campgrounds){
-		if(err) console.log(err);
-		else res.render("campground/index", {campgrounds:campgrounds, currentUser: req.user});
-	});
+	if(req.query.search && req.xhr) {
+	    const regex = new RegExp(escapeRegex(req.query.search), 'gi');
+	    // Get all campgrounds from DB
+	    Campground.find({name: regex}, function(err, allCampgrounds){
+	        if(err) console.log(err);
+	        else res.status(200).json(allCampgrounds);
+	    });
+	} else {
+		Campground.find({}, function(err, campgrounds){
+			if(err) console.log(err);
+			else res.render("campgrounds/index", {campgrounds:campgrounds, currentUser: req.user});
+		});
+	};	
 });
 
 // CREATE -- ADD NEW CAMPGROUND TO DB
@@ -36,7 +50,7 @@ router.get("/campgrounds/new", isLoggedIn, function(req, res){
 // SHOW -- SHOW MORE INFO ABOUT ONE CAMPGROUND
 router.get("/campgrounds/:id", function(req, res){
 	//Find the campground with provided ID
-	Campround.FindById(req.params.id).populate("comments").exec(function(err, foundCampground){
+	Campground.findById(req.params.id).populate("comments").exec(function(err, foundCampground){
 		if (err) console.log(err);
 		else {
 			console.log(foundCampground);
@@ -45,11 +59,57 @@ router.get("/campgrounds/:id", function(req, res){
 	});
 });
 
+// EDIT CAMPGROUND ROUTE
+router.get("/campgrounds/:id/edit", checkCampgroundOwnership, function(req, res){
+		Campround.findById(req, params.id, function(err, foundCampground){
+			res.render("campgrounds/edit", {campground: foundCampground});
+	});
+});
+
+// UPDATE CAMPGROUND ROUTE
+router.put("/campgrounds/:id", checkCampgroundOwnership, function(req, res){
+	Campround.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedCampground){
+		if (err) res.redirect("/campgrounds");
+		else res.redirect("/campgrounds/" + req.params.id);
+	});
+});
+
+// DESTROY CAMPGROUND ROUTE
+router.delete("/campgrounds/:id", checkCampgroundOwnership, function(req, res){
+	Campround.findByIdAndRemove(req.params.id, function(err){
+		if (err) res.redirect("/campgrounds");
+		else res.redirect("/campgrounds");
+	});
+});
+
 function isLoggedIn(req, res, next) {
 	if(req.isAuthenticated()){
 		return next();
 	}
+	req.flash("error", "Please Login First!");
 	res.redirect("/login");
+};
+
+function checkCampgroundOwnership(req, res, next) {
+	if (req.isAuthenticated()){
+		Campround.findById(req.params.id, function(err, foundCampground){
+			if (err) {
+				req.flash("error", "Campround Not Found!");
+				res.redirect("back");
+			}
+			else {
+				if (campground.author.id.equals(req.user._id)) {
+					next();
+				} else {
+					req.flash("error", "Permission Denied!");
+					res.redirect("back");
+				}				
+			}
+		});	
+	} else {
+		req.flash("error", "You Need To Be Logged In!");
+		res.redirect("back");
+	};	
 };
 
 module.exports = router;
